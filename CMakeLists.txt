@@ -7,7 +7,7 @@ set(CMAKE_BUILD_TYPE Debug)
 
 
 # Eigen
-find_package(Eigen3)
+#find_package(Eigen3)
 
 # Pybind11
 add_subdirectory(pybind11)
@@ -24,5 +24,5 @@ add_library(vibes src/vibes.cpp)
 
 
 pybind11_add_module(Game src/main.cpp  )
-target_link_libraries(Game Maze Agent Block utils Eigen3::Eigen vibes )
+target_link_libraries(Game Maze Agent Block utils vibes )
 

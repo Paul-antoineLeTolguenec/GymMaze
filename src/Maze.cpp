@@ -15,8 +15,8 @@
 
 using namespace std;
 
-Maze::Maze(float xinit, float yinit, float xgoal, float ygoal, int time_horizon ): xinit(xinit), yinit(yinit), xgoal(xgoal), ygoal(ygoal), time_horizon(time_horizon){
-	agent=new Agent(this,xinit,yinit,dt,vmax);
+Maze::Maze(float xinit, float yinit, float xgoal, float ygoal, int time_horizon , int n_b): xinit(xinit), yinit(yinit), xgoal(xgoal), ygoal(ygoal), time_horizon(time_horizon){
+	agent=new Agent(this,xinit,yinit,dt,vmax, n_b);
 	}
 vector<float> Maze::reset(){
 	// init agent 
@@ -25,13 +25,13 @@ vector<float> Maze::reset(){
 	// state
 	vector<float> state;
 	// position
-	state.push_back(agent->x);
-	state.push_back(agent->y);
-	state.push_back(agent->xdot);
-	state.push_back(agent->ydot);
+	state.push_back((agent->x/(this->width/2))-1);
+	state.push_back((agent->y/(this->height/2))-1);
+	state.push_back(agent->xdot/(agent->vmax));
+	state.push_back(agent->ydot/(agent->vmax));
 	// lidar
 	vector<float> lidar= agent->lidar_observation();
-	for(float beam : lidar){state.push_back(beam);}
+	for(float beam : lidar){state.push_back(beam/agent->lidar_range);}
 	// time_horizon
 	time=0;
 	// lidar
@@ -44,29 +44,33 @@ tuple<vector<float>,float,bool,string> Maze::step(const vector<float> &action){
 	// update time
 	time+=1;
 	// move agent
-	agent->move(action);
+	bool hit = agent->move(action);
+
+	// done
+	bool done=false;
+	// done=hit;
+	if (time>=time_horizon)
+		{done=true;}
+
 	// state
 	vector<float> state;
 	// position
-	state.push_back(agent->x);
-	state.push_back(agent->y);
-	state.push_back(agent->xdot);
-	state.push_back(agent->ydot);
+	state.push_back((agent->x/(this->width/2))-1);
+	state.push_back((agent->y/(this->height/2))-1);
+	state.push_back(agent->xdot/(agent->vmax));
+	state.push_back(agent->ydot/(agent->vmax));
 	// lidar
 	vector<float> lidar= agent->lidar_observation();
-	for(float beam : lidar){state.push_back(beam);}
+	for(float beam : lidar){state.push_back(beam/agent->lidar_range);}
 
 	// reward
 	
 	float distance=sqrt(pow(xgoal-agent->x,2)+pow(ygoal-agent->y,2));
-	float reward=-0.01;
-	if (distance<treshold)
-		{reward+=1000.0;}
+	float reward=this->life_penalty;
+	if (distance<this->treshold)
+		{reward+=1000.0;
+		done=true;}
 	
-	// done
-	bool done=false;
-	if (time>=time_horizon || distance<treshold)
-		{done=true;}
 	
 
 

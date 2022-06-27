@@ -11,7 +11,7 @@
 #include <string>
 #include <list>
 #include <iostream>
-#include <eigen3/Eigen/Dense>
+// #include <eigen3/Eigen/Dense>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <pybind11/complex.h>
@@ -30,7 +30,7 @@ namespace py = pybind11;
 
 PYBIND11_MODULE(Game, m) {
 	py::class_<Maze>(m, "Maze")
-		.def(py::init<float, float,float, float, int>(), py::arg("xinit") = 5.0, py::arg("yinit") = 5.0, py::arg("xgoal") = 90.0, py::arg("ygoal") = 90.0, py::arg("time_horizon")=3000)
+		.def(py::init<float, float,float, float, int, int>(), py::arg("xinit") = 5.0, py::arg("yinit") = 5.0, py::arg("xgoal") = 90.0, py::arg("ygoal") = 90.0, py::arg("time_horizon")=3000, py::arg("n_b")=5)
 		.def("Cstep", &Maze::step)
 		.def("Creset", &Maze::reset)
 		.def("Crender",&Maze::render)
@@ -43,9 +43,12 @@ PYBIND11_MODULE(Game, m) {
 		.def_readwrite("ygoal", &Maze::ygoal)
 		.def_readwrite("width", &Maze::width)
 		.def_readwrite("height", &Maze::height)
-		.def_readwrite("vmax", &Maze::vmax);
+		.def_readwrite("vmax", &Maze::vmax)
+		.def_readwrite("time_horizon", &Maze::time_horizon)
+		.def_readwrite("life_penalty", &Maze::life_penalty)
+		.def_readwrite("treshold", &Maze::treshold);
 	py::class_<Agent>(m, "Agent")
-		.def(py::init<Maze *, float, float, float, float>())
+		.def(py::init<Maze *, float, float, float, float, int>())
 		.def("move", &Agent::move)
 		.def("lidar_observation", &Agent::lidar_observation)
 		.def_readwrite("n_beams", &Agent::n_beams)

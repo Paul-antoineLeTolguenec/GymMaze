@@ -36,15 +36,16 @@ class Agent
 		// Vmax
 		float vmax;
 		// lidar 
-		int n_beams=5;
+		int n_beams;
 		vector<float> beams;
-		float lidar_range=100;
+		float lidar_range;
+		float max_beam;
 		// Maze
 		Maze *maze;
 
 		// FUNCTIONS
-		Agent(Maze *maze, float xinit, float yinit, float dt, float vmax);
-		void move(vector<float>action);
+		Agent(Maze *maze, float xinit, float yinit, float dt, float vmax, int n_b);
+		bool move(vector<float>action);
 		vector<float> lidar_observation();
 
 };

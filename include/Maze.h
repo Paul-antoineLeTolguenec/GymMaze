@@ -36,7 +36,8 @@ class Maze
 		int time=0;
 		float dt=0.1;
 		float vmax=500.0;
-		float treshold=5;
+		float treshold=1;
+		float life_penalty=-0.001;
 	
 		// Block
 		vector<Block> block_list;
@@ -47,7 +48,7 @@ class Maze
 
 
 		// FUNCTIONS
-		Maze(float xinit, float yinit, float xgoal, float ygoal, int time_horizon );
+		Maze(float xinit, float yinit, float xgoal, float ygoal, int time_horizon , int n_b);
 
 		vector<float> reset();
 		
