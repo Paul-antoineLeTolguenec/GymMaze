@@ -62,9 +62,7 @@ tuple<vector<float>,float,bool,string> Maze::step(const vector<float> &action){
 	// lidar
 	vector<float> lidar= agent->lidar_observation();
 	for(float beam : lidar){state.push_back(beam/agent->lidar_range);}
-
 	// reward
-	
 	float distance=sqrt(pow(xgoal-agent->x,2)+pow(ygoal-agent->y,2));
 	float reward=this->life_penalty;
 	if (distance<this->treshold)

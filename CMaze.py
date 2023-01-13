@@ -241,7 +241,8 @@ class CMaze(Maze):
 		
 	def save(self, filename : str):
 		file=filename + str(".json")
-		path="/home/pletctj6/volumes/Documents/Environment/CMaze/Mazes/"+file
+		path=os.path.join( os.path.dirname( __file__ ), 'Mazes/' )
+		path=path+file
 
 		data={}
 		with open(path, 'w') as outfile:
@@ -268,7 +269,8 @@ class CMaze(Maze):
 			
 	def load(self,filename : str):
 		file=filename + str(".json")
-		path="/home/pletctj6/volumes/Documents/Environment/CMaze/Mazes/"+file
+		path=os.path.join( os.path.dirname( __file__ ), 'Mazes/' )
+		path=path+file
 		with open(path) as json_file:
 			data = json.load(json_file)
 		# Maze data

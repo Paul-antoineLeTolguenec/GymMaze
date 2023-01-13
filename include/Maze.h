@@ -37,7 +37,7 @@ class Maze
 		float dt=0.1;
 		float vmax=500.0;
 		float treshold=1;
-		float life_penalty=-0.001;
+		float life_penalty=-1;
 	
 		// Block
 		vector<Block> block_list;
