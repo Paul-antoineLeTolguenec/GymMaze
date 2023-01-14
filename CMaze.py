@@ -35,6 +35,7 @@ class CMaze(Maze):
 		gym.logger.set_level(40)
 		self.action_space = spaces.Box(np.array([0,0]),np.array([2*np.pi,self.vmax]), dtype=np.float32)
 		self.observation_space = spaces.Box(-np.ones(shape=(1,4+self.agent.n_beams)).flatten(), np.ones(shape=(1,4+self.agent.n_beams)).flatten(), dtype=np.float32)
+		self.b_space=2
 
 		# load
 		if filename!=None:
@@ -75,7 +76,8 @@ class CMaze(Maze):
 		state=self.state_open_cv()
 		return state
 
-
+	def bcoord(self, s):
+		return [self.agent.x,self.agent.y]
 
 	def render(self, type="py", freeze=False, behaviours=[], curiosities=[], times=[], save_image=False, filename="behaviours", shade=False):
 		if type=="py":

@@ -25,8 +25,8 @@ vector<float> Maze::reset(){
 	// state
 	vector<float> state;
 	// position
-	state.push_back((agent->x/(this->width/2))-1);
-	state.push_back((agent->y/(this->height/2))-1);
+	state.push_back(agent->x/this->width);
+	state.push_back(agent->y/this->height);
 	state.push_back(agent->xdot/(agent->vmax));
 	state.push_back(agent->ydot/(agent->vmax));
 	// lidar
@@ -55,8 +55,8 @@ tuple<vector<float>,float,bool,string> Maze::step(const vector<float> &action){
 	// state
 	vector<float> state;
 	// position
-	state.push_back((agent->x/(this->width/2))-1);
-	state.push_back((agent->y/(this->height/2))-1);
+	state.push_back(agent->x/this->width);
+	state.push_back(agent->y/this->height);
 	state.push_back(agent->xdot/(agent->vmax));
 	state.push_back(agent->ydot/(agent->vmax));
 	// lidar
@@ -64,9 +64,10 @@ tuple<vector<float>,float,bool,string> Maze::step(const vector<float> &action){
 	for(float beam : lidar){state.push_back(beam/agent->lidar_range);}
 	// reward
 	float distance=sqrt(pow(xgoal-agent->x,2)+pow(ygoal-agent->y,2));
-	float reward=this->life_penalty;
+	// float reward=this->life_penalty;
+	float reward=0.0;
 	if (distance<this->treshold)
-		{reward+=1000.0;
+		{reward+=1000.0-time;
 		done=true;}
 	
 	
